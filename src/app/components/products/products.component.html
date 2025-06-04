@@ -11,7 +11,7 @@
 
   <!-- Product Count -->
   <div class="row bg-primary rounded text-center text-white py-3">
-    <h2>Total Products: {{ productNumber }}</h2>
+    <h2>Total Products: {{ getproductNumber() }}</h2>
   </div>
 
   <!-- Filter Form -->
@@ -20,15 +20,13 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title mb-3">Filter Products</h5>
-          <form class="row g-3 align-items-end" (submit)="applyFilters(categoryInput.value, titleInput.value, priceInput.value)">
+          <div class="row g-3 align-items-end" >
             <!-- Category Dropdown -->
             <div class="col-md-4">
               <label for="category" class="form-label">Category</label>
               <select class="form-select" id="category" #categoryInput>
-                <option>All</option>
-                <option>Electronics</option>
-                <option>Furniture</option>
-                <option>Books</option>
+                <option value="All">All</option>
+                <option *ngFor="let category of categories " [value]="category.name">{{category.name}}</option>
               </select>
             </div>
 
@@ -46,9 +44,14 @@
 
             <!-- Apply Button -->
             <div class="col-12">
-              <button type="submit" class="btn btn-primary w-100">Apply</button>
+              <button type="submit" class="btn btn-primary w-100" (click)="applyFilters(categoryInput.value, titleInput.value, priceInput.value)">Apply</button>
+              
             </div>
-          </form>
+            <div class="col-12 align-items-center">
+              <button type="submit" class="btn btn-secondary w-100" (click)="resetFilters()">Reset</button>
+              
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,13 +79,14 @@
     </div>
   </div>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-4">
-  <div class="col" *ngFor="let product of products">
+  <div class="col" *ngFor="let product of products | productFilter:selectedCategory:selectedTitle:selectedMaxPrice">
     <div class="card h-100">
-      <img src={{product.image}} class="card-img-top img-fluid fixed-img" alt="{{ product.title }}">
+      <img src={{product.images[0]}} class="card-img-top img-fluid fixed-img" alt="{{ product.title }}">
       <div class="card-body">
         <h5 class="card-title">{{ product.title }}</h5>
         <p class="card-text">
           <strong>Category:</strong> {{ product.category }}<br>
+          <strong>Description:</strong> {{ product.description.substring(0,100) }}<br>
           <strong>Stock:</strong> {{ product.stock }}<br>
           <strong>Price:</strong> ${{ product.price }}
         </p>

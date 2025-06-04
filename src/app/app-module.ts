@@ -3,23 +3,30 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
-import { FooterComponent } from './footer/footer.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ProductsComponent } from './products/products.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ProductService } from './services/product.service';
+import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { ProductFilterPipe } from './pipes/product-filter-pipe';
 
 @NgModule({
   declarations: [
     App,
     FooterComponent,
     NavbarComponent,
-    ProductsComponent
+    ProductsComponent,
+    ProductFilterPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [
-    provideBrowserGlobalErrorListeners()
+    provideBrowserGlobalErrorListeners(),
+    ProductService,
+    [provideHttpClient()],
   ],
   bootstrap: [App]
 })
