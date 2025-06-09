@@ -9,6 +9,10 @@ import { ProductsComponent } from './components/products/products.component';
 import { ProductService } from './services/product.service';
 import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { ProductFilterPipe } from './pipes/product-filter-pipe';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { CartComponent } from './components/cart/cart.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RatingTostarsPipe } from './pipes/rating-tostars-pipe';
 
 @NgModule({
   declarations: [
@@ -16,11 +20,17 @@ import { ProductFilterPipe } from './pipes/product-filter-pipe';
     FooterComponent,
     NavbarComponent,
     ProductsComponent,
-    ProductFilterPipe
+    ProductFilterPipe,
+    ProductDetailsComponent,
+    CartComponent,
+    RatingTostarsPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
 
   ],
   providers: [

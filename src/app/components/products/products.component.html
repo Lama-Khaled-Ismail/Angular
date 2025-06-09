@@ -10,7 +10,7 @@
   </div>
 
   <!-- Product Count -->
-  <div class="row bg-primary rounded text-center text-white py-3">
+  <div class="row bg-secondary rounded text-center text-white py-3">
     <h2>Total Products: {{ getproductNumber() }}</h2>
   </div>
 
@@ -44,7 +44,7 @@
 
             <!-- Apply Button -->
             <div class="col-12">
-              <button type="submit" class="btn btn-primary w-100" (click)="applyFilters(categoryInput.value, titleInput.value, priceInput.value)">Apply</button>
+              <button type="submit" class="btn btn-dark w-100" (click)="applyFilters(categoryInput.value, titleInput.value, priceInput.value)">Apply</button>
               
             </div>
             <div class="col-12 align-items-center">
@@ -90,7 +90,15 @@
           <strong>Stock:</strong> {{ product.stock }}<br>
           <strong>Price:</strong> ${{ product.price }}
         </p>
-        <a href="#" class="btn btn-primary">Buy Now</a>
+        <p class="card-text">
+        <span *ngFor="let star of product.rating | ratingTostars">
+          <i class="bi bi-star-fill text-warning" *ngIf="star.full"></i>
+          <i class="bi bi-star-half text-warning" *ngIf="star.half"></i>
+          <i class="bi bi-star text-warning" *ngIf="star.empty"></i>
+        </span>
+      </p>
+        <a [routerLink]="['/products', product.id]" class="btn btn-outline-dark btn-sm m-3">View Details</a>
+        <button (click)="addToCart(product)" class="btn btn-secondary btn-sm">Add to Cart</button>
       </div>
     </div>
   </div>

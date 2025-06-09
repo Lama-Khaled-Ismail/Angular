@@ -13,7 +13,7 @@ export class ProductService {
   private apiUrl = 'https://dummyjson.com/products';
 
   constructor(private http: HttpClient) {
-    alert("ProductService");
+    
    }
    getProducts():Observable<ProductResponse>{
       return this.http.get<ProductResponse>(this.apiUrl);
@@ -21,6 +21,9 @@ export class ProductService {
    getCategories():Observable<Category[]>{
     return this.http.get<Category[]>(this.apiUrl+'/categories');
    }
+   getProductById(id: string): Observable<Product> {
+    return this.http.get<any>(this.apiUrl+'/'+id);
+  }
 }
 
 export interface ProductResponse {

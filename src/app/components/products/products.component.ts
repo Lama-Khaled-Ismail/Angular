@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from './../../models/Product';
 import { Category } from '../../models/Category';
+import { CartService } from './../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -13,7 +14,7 @@ export class ProductsComponent {
 
   products:Product[] = [];
   categories:Category[] =[];
-  constructor(private productService:ProductService){}
+  constructor(private productService:ProductService, private cartService:CartService){}
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
       next: (res) => {
@@ -59,6 +60,11 @@ export class ProductsComponent {
   this.selectedCategory = 'All';
   this.selectedTitle = '';
   this.selectedMaxPrice = null;
+  }
+
+  addToCart(product: any) {
+    this.cartService.addToCart(product);
+    alert(`${product.title} added to cart!`);
   }
   
 
