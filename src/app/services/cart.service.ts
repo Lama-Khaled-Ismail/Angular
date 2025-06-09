@@ -8,38 +8,35 @@ import { BehaviorSubject } from 'rxjs';
 export class CartService {
   private cart: CartItem[]= [];
   private readonly cartKey = 'cart';
-  private isBrowser: boolean;
+  
   private cartSubject = new BehaviorSubject<any[]>([]);
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  constructor() {
     this.initializeCart();
   }
 
-  private initializeCart() {
+  private initializeCart(): void {
     this.cart = [];
-    if (this.isBrowser) {
-      try {
-        const savedCart = localStorage.getItem(this.cartKey);
-        if (savedCart) {
-          const parsedCart = JSON.parse(savedCart);
-          this.cart = Array.isArray(parsedCart)
-            ? parsedCart.filter((item: any): item is CartItem =>
-                typeof item.id === 'number' &&
-                typeof item.title === 'string' &&
-                typeof item.price === 'number' &&
-                typeof item.quantity === 'number' &&
-                typeof item.total === 'number' &&
-                typeof item.image === 'string'
-              )
-            : []
-        }
-      } catch (error) {
-        console.error('Error parsing cart from localStorage:', error);
-        this.cart = [];
+    try {
+      const savedCart = localStorage.getItem(this.cartKey);
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        this.cart = Array.isArray(parsedCart)
+          ? parsedCart.filter((item: any): item is CartItem =>
+              typeof item.id === 'number' &&
+              typeof item.title === 'string' &&
+              typeof item.price === 'number' &&
+              typeof item.quantity === 'number' &&
+              typeof item.total === 'number' &&
+              typeof item.image === 'string'
+            )
+          : [];
       }
-      this.cartSubject.next(this.cart);
+    } catch (error) {
+      console.error('Error parsing cart from localStorage:', error);
+      this.cart = [];
     }
+    this.cartSubject.next(this.cart);
   }
 
   getCart(): any[] {
@@ -51,9 +48,8 @@ export class CartService {
   }
 
   private save() {
-    if (this.isBrowser) {
-      localStorage.setItem(this.cartKey, JSON.stringify(this.cart));
-    }
+    
+    localStorage.setItem(this.cartKey, JSON.stringify(this.cart));
     this.cartSubject.next(this.cart);
   }
 
